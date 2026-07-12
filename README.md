@@ -2,8 +2,6 @@
 
 A voice-first AI support triage agent built for Depop, demonstrating how ElevenLabs' speech synthesis and Claude's reasoning capabilities can be deployed against a real operational problem in a high-volume consumer marketplace.
 
-**Built as a portfolio project for Forward Deployed Engineer Strategist roles in voice AI.**
-
 ---
 
 ## The Problem
@@ -45,7 +43,7 @@ The agent handles the repetitive 60%. Human agents handle the complex 40% — wi
 
 ## Demo
 
-[Watch the demo on Loom] (https://www.loom.com/share/2732ddf4d962414fa539720f801b291f) 
+Watch the demo on Loom: (https://www.loom.com/share/2732ddf4d962414fa539720f801b291f) 
 
 Four scenarios demonstrating the full decision range:
 
