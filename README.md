@@ -6,7 +6,7 @@ A voice-first AI support triage agent built for Depop, demonstrating how ElevenL
 
 ## The Problem
 
-Depop carries a 1.3-star Trustpilot rating across 7,000+ reviews. The overwhelming majority of complaints are not complex — they are the same six support queries asked by different people every day: item not received, item not as described, authenticity disputes, payout delays, account suspensions, and fee confusion.
+Depop carries a 3.1-star Trustpilot rating across 7,000+ reviews. The overwhelming majority of complaints are not complex — they are the same six support queries asked by different people every day: item not received, item not as described, authenticity disputes, payout delays, account suspensions, and fee confusion.
 
 Depop has no live chat. Users submit tickets and wait days for a first response — often missing the 30-day dispute window while they do. The problem isn't knowledge or policy. It's delivery.
 
@@ -177,9 +177,9 @@ This is a working prototype. Moving to production would require:
 
 ---
 
-## About This Project
+## About Me
 
-Built by **Vullnet Voca** as a portfolio demonstration of applied voice AI deployment strategy.
+Built by **Vullnet Voca**.
 
 Background: 6+ years across market and user research, enterprise product discovery, and applied AI product development. MSc Data Science & AI (Distinction), UAL Creative Computing Institute.
 
