@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Depop Support Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #FF2300;
+      --red-faint: rgba(255,35,0,0.06);
+      --red-mid: rgba(255,35,0,0.15);
+      --bg: #ffffff;
+      --surface: #f7f7f7;
+      --border: #ebebeb;
+      --text: #111111;
+      --text-muted: #999999;
+      --text-dim: #cccccc;
+      --sans: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --radius: 10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 1rem 4rem;
+    }
+
+    /* HEADER */
+    header {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 0 0;
+      margin-bottom: 0.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .logo-mark {
+      width: 24px;
+      height: 24px;
+      background: var(--red);
+      border-radius: 5px;
+    }
+
+    .logo-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+
+    .logo-sub {
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .btn-switch {
+      font-size: 12px;
+      font-family: var(--sans);
+      color: var(--text-muted);
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-switch:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    /* MAIN */
+    main {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    /* VOICE MODE */
+    #voice-mode {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    #p5-container canvas {
+      display: block;
+    }
+
+    .speak-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: -12px;
+      letter-spacing: 0.02em;
+    }
+
+    /* TEXT MODE */
+    #text-mode {
+      display: none;
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 1rem;
+    }
+
+    #text-mode.visible { display: flex; }
+
+    textarea {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 12px 14px;
+      resize: none;
+      height: 90px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    textarea::placeholder { color: var(--text-dim); }
+    textarea:focus { border-color: var(--red); }
+
+    .btn-send {
+      align-self: flex-end;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 22px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .btn-send:hover { background: #e01f00; }
+    .btn-send:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+    /* CLARIFICATION */
+    #clarification-zone {
+      display: none;
+      width: 100%;
+      background: #fff8f7;
+      border: 1px solid rgba(255,35,0,0.2);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+    }
+
+    #clarification-zone.visible { display: block; }
+
+    .clarification-q {
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .clarification-btns {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-clarify {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-clarify:hover { border-color: var(--red); color: var(--red); }
+
+    /* REASONING — compact, secondary */
+    #reasoning-zone {
+      width: 100%;
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      min-height: 36px;
+    }
+
+    .reasoning-line {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeIn 0.2s forwards;
+    }
+
+    .reasoning-line::before {
+      content: '›';
+      color: var(--red);
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .reasoning-line.active { color: var(--text); }
+
+    .category-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: var(--red-faint);
+      color: var(--red);
+      border: 1px solid rgba(255,35,0,0.15);
+      margin-top: 4px;
+    }
+
+    .reasoning-idle {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    /* RESPONSE */
+    #response-zone {
+      width: 100%;
+    }
+
+    #response-zone.hidden { display: none; }
+
+    .response-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .response-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.85rem;
+    }
+
+    .response-status {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .response-status.resolve { color: #16a34a; }
+    .response-status.escalate { color: var(--red); }
+
+    .btn-replay {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding: 3px 10px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .btn-replay:hover { border-color: var(--text-muted); color: var(--text); }
+
+    .response-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+    }
+
+    .audio-playing {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      margin-top: 0.85rem;
+      padding-top: 0.85rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .audio-playing.visible { display: flex; }
+
+    .audio-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse-dot 1s ease-in-out infinite;
+    }
+
+    .btn-reset {
+      display: none;
+      background: none;
+      border: none;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin-top: 0.5rem;
+      padding: 0;
+    }
+
+    .btn-reset.visible { display: inline; }
+    .btn-reset:hover { color: var(--text); }
+
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.7); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      <div class="logo-text">Support Agent <span class="logo-sub">/ Depop</span></div>
+    </div>
+    <button class="btn-switch" id="btn-switch" onclick="toggleMode()">Switch to text</button>
+  </header>
+
+  <main>
+
+    <!-- VOICE MODE -->
+    <div id="voice-mode">
+      <div id="p5-container"></div>
+      <p class="speak-hint" id="speak-hint">Tap to speak your issue</p>
+    </div>
+
+    <!-- TEXT MODE -->
+    <div id="text-mode">
+      <textarea id="user-input" placeholder="Describe your issue as a buyer or seller…"></textarea>
+      <button class="btn-send" id="btn-send" onclick="handleSend()">Send</button>
+    </div>
+
+    <!-- CLARIFICATION -->
+    <div id="clarification-zone">
+      <div class="clarification-q" id="clarification-q"></div>
+      <div class="clarification-btns">
+        <button class="btn-clarify" onclick="handleClarify('buyer')">I'm the buyer</button>
+        <button class="btn-clarify" onclick="handleClarify('seller')">I'm the seller</button>
+      </div>
+    </div>
+
+    <!-- REASONING -->
+    <div id="reasoning-zone">
+      <div class="reasoning-idle" id="reasoning-idle">Waiting for input…</div>
+      <div id="reasoning-lines"></div>
+    </div>
+
+    <!-- RESPONSE -->
+    <div id="response-zone" class="hidden">
+      <div class="response-card">
+        <div class="response-header">
+          <span class="response-status" id="response-status"></span>
+          <button class="btn-replay" onclick="replayAudio()">↺ Replay</button>
+        </div>
+        <div class="response-text" id="response-text"></div>
+        <div class="audio-playing" id="audio-playing">
+          <div class="audio-dot"></div>
+          River · ElevenLabs
+        </div>
+      </div>
+      <button class="btn-reset" id="btn-reset" onclick="resetUI()">Start over</button>
+    </div>
+
+  </main>
+
+  <script>
+    const API = '';
+    let currentMessage = '';
+    let audioBlob = null;
+    let isTextMode = false;
+    let appState = 'idle'; // idle | recording | processing | responding
+    let recognition = null;
+
+    // ── p5 sketch ──────────────────────────────────────────────
+    const sketch = (p) => {
+      const BTN_R = 72;
+      const CANVAS_SIZE = 320;
+      let rings = [];
+      let lastSpawn = 0;
+      let angle = 0;
+
+      p.setup = () => {
+        const cnv = p.createCanvas(CANVAS_SIZE, CANVAS_SIZE);
+        cnv.parent('p5-container');
+        cnv.style('cursor', 'pointer');
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textFont('Inter');
+      };
+
+      p.draw = () => {
+        p.clear();
+        p.translate(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+
+        const now = p.millis();
+        const spawnInterval = appState === 'recording' ? 350 : 1800;
+
+        if (now - lastSpawn > spawnInterval) {
+          rings.push({ r: BTN_R, alpha: appState === 'recording' ? 200 : 100, speed: appState === 'recording' ? 2.2 : 0.9 });
+          lastSpawn = now;
+        }
+
+        // Draw and update rings
+        for (let i = rings.length - 1; i >= 0; i--) {
+          const rg = rings[i];
+          rg.r += rg.speed;
+          rg.alpha -= appState === 'recording' ? 4.5 : 1.5;
+          if (rg.alpha <= 0) { rings.splice(i, 1); continue; }
+          p.noFill();
+          p.strokeWeight(appState === 'recording' ? 2 : 1.5);
+          p.stroke(255, 35, 0, rg.alpha);
+          p.circle(0, 0, rg.r * 2);
+        }
+
+        // Processing arc
+        if (appState === 'processing') {
+          angle += 3;
+          p.noFill();
+          p.strokeWeight(2.5);
+          p.stroke(255, 35, 0, 180);
+          p.arc(0, 0, (BTN_R + 16) * 2, (BTN_R + 16) * 2, p.radians(angle), p.radians(angle + 240));
+        }
+
+        // Main button circle
+        p.noStroke();
+        if (appState === 'recording') {
+          // pulse scale
+          const pulse = 1 + p.sin(p.millis() / 150) * 0.03;
+          p.scale(pulse);
+        }
+        p.fill(255, 35, 0);
+        p.circle(0, 0, BTN_R * 2);
+
+        // Button label
+        p.fill(255);
+        p.textSize(12);
+        p.textStyle(p.BOLD);
+        p.letterSpacing = 2;
+        const label = appState === 'recording' ? 'LISTENING' : appState === 'processing' ? 'THINKING' : 'SPEAK';
+        p.text(label, 0, 0);
+      };
+
+      p.mousePressed = () => {
+        const d = p.dist(p.mouseX, p.mouseY, CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+        if (d < BTN_R) {
+          handleVoice();
+        }
+      };
+    };
+
+    new p5(sketch, 'p5-container');
+
+    // ── Mode toggle ─────────────────────────────────────────────
+    function toggleMode() {
+      isTextMode = !isTextMode;
+      document.getElementById('voice-mode').style.display = isTextMode ? 'none' : 'flex';
+      document.getElementById('text-mode').classList.toggle('visible', isTextMode);
+      document.getElementById('btn-switch').textContent = isTextMode ? 'Switch to voice' : 'Switch to text';
+    }
+
+    // ── Voice input ─────────────────────────────────────────────
+    function handleVoice() {
+      if (appState === 'processing' || appState === 'responding') return;
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Voice input requires Chrome. Switch to text mode instead.');
+        return;
+      }
+
+      if (appState === 'recording') {
+        recognition.stop();
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-GB';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      appState = 'recording';
+      document.getElementById('speak-hint').textContent = 'Tap again to stop';
+
+      recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        currentMessage = transcript;
+      };
+
+      recognition.onend = () => {
+        if (currentMessage) {
+          processMessage(currentMessage, null);
+        } else {
+          appState = 'idle';
+          document.getElementById('speak-hint').textContent = 'Tap to speak your issue';
+        }
+        recognition = null;
+      };
+
+      recognition.start();
+    }
+
+    // ── Text input ───────────────────────────────────────────────
+    function handleSend() {
+      const input = document.getElementById('user-input').value.trim();
+      if (!input) return;
+      currentMessage = input;
+      processMessage(input, null);
+    }
+
+    // ── Clarification ────────────────────────────────────────────
+    function handleClarify(perspective) {
+      document.getElementById('clarification-zone').classList.remove('visible');
+      processMessage(currentMessage, perspective);
+    }
+
+    // ── Core agent loop ──────────────────────────────────────────
+    async function processMessage(message, perspective) {
+      appState = 'processing';
+      document.getElementById('speak-hint').textContent = 'Processing…';
+      document.getElementById('btn-send').disabled = true;
+
+      clearReasoning();
+      document.getElementById('response-zone').classList.add('hidden');
+      document.getElementById('audio-playing').classList.remove('visible');
+      audioBlob = null;
+
+      try {
+        const res = await fetch(`${API}/api/message`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message, perspective })
+        });
+
+        const data = await res.json();
+
+        // Show reasoning with stagger
+        data.reasoning.forEach((step, i) => {
+          setTimeout(() => addReasoningLine(step, i === data.reasoning.length - 1), i * 160);
+        });
+
+        const afterReasoning = data.reasoning.length * 160 + 200;
+
+        setTimeout(() => showCategoryBadge(data.category), afterReasoning - 100);
+
+        if (data.needs_clarification) {
+          setTimeout(() => {
+            document.getElementById('clarification-q').textContent = data.response_text;
+            document.getElementById('clarification-zone').classList.add('visible');
+            appState = 'idle';
+            document.getElementById('speak-hint').textContent = 'Tap to speak your issue';
+            document.getElementById('btn-send').disabled = false;
+          }, afterReasoning);
+          return;
+        }
+
+        setTimeout(async () => {
+          // Show response card
+          const statusEl = document.getElementById('response-status');
+          statusEl.textContent = data.escalate ? '⬆ Escalating to support' : '✓ Resolved';
+          statusEl.className = 'response-status ' + (data.escalate ? 'escalate' : 'resolve');
+          document.getElementById('response-text').textContent = data.response_text;
+          document.getElementById('response-zone').classList.remove('hidden');
+          document.getElementById('btn-reset').classList.add('visible');
+
+          // Fetch and auto-play audio
+          try {
+            const audioRes = await fetch(`${API}/api/speak`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ text: data.response_text })
+            });
+
+            if (audioRes.ok) {
+              audioBlob = await audioRes.blob();
+              document.getElementById('audio-playing').classList.add('visible');
+              playAudio();
+            }
+          } catch (e) {
+            console.error('TTS error:', e);
+          }
+
+          appState = 'responding';
+          document.getElementById('speak-hint').textContent = 'Tap to speak your issue';
+          document.getElementById('btn-send').disabled = false;
+
+        }, afterReasoning);
+
+      } catch (err) {
+        console.error(err);
+        appState = 'idle';
+        document.getElementById('speak-hint').textContent = 'Connection error — is Flask running?';
+        document.getElementById('btn-send').disabled = false;
+        addReasoningLine('Connection error — is Flask running?', true);
+      }
+    }
+
+    // ── Audio ────────────────────────────────────────────────────
+    function playAudio() {
+      if (!audioBlob) return;
+      const url = URL.createObjectURL(audioBlob);
+      const audio = new Audio(url);
+      audio.onended = () => {
+        document.getElementById('audio-playing').classList.remove('visible');
+        appState = 'idle';
+      };
+      audio.play();
+    }
+
+    function replayAudio() { playAudio(); }
+
+    // ── Reasoning helpers ────────────────────────────────────────
+    function clearReasoning() {
+      document.getElementById('reasoning-lines').innerHTML = '';
+      document.getElementById('reasoning-idle').style.display = 'block';
+    }
+
+    function addReasoningLine(text, isLast) {
+      document.getElementById('reasoning-idle').style.display = 'none';
+      const line = document.createElement('div');
+      line.className = 'reasoning-line' + (isLast ? ' active' : '');
+      line.textContent = text;
+      document.getElementById('reasoning-lines').appendChild(line);
+    }
+
+    function showCategoryBadge(category) {
+      const badge = document.createElement('div');
+      badge.className = 'category-badge';
+      badge.textContent = category.replace(/_/g, ' ');
+      document.getElementById('reasoning-lines').appendChild(badge);
+    }
+
+    // ── Reset ────────────────────────────────────────────────────
+    function resetUI() {
+      currentMessage = '';
+      audioBlob = null;
+      appState = 'idle';
+      document.getElementById('user-input').value = '';
+      document.getElementById('speak-hint').textContent = 'Tap to speak your issue';
+      document.getElementById('clarification-zone').classList.remove('visible');
+      document.getElementById('response-zone').classList.add('hidden');
+      document.getElementById('btn-reset').classList.remove('visible');
+      document.getElementById('audio-playing').classList.remove('visible');
+      clearReasoning();
+    }
+  </script>
+
+</body>
+</html>

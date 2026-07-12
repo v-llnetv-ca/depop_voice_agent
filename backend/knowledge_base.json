@@ -1,0 +1,278 @@
+{
+    "knowledge_base": [
+      {
+        "category": "shipping_dispute",
+        "summary": "Buyer claims an order has not arrived, or there is a problem with tracking or delivery.",
+        "trigger_phrases": [
+          "I haven't received my order",
+          "my item never arrived",
+          "tracking hasn't updated",
+          "buyer says they didn't get it",
+          "package seems lost",
+          "item not delivered",
+          "where is my order",
+          "seller hasn't shipped",
+          "tracking shows delivered but buyer didn't receive it",
+          "order hasn't arrived"
+        ],
+        "resolution_steps": [
+          "Check the order tracking information first.",
+          "If there is no tracking or the item hasn't shipped yet, message the seller directly.",
+          "If it has been fewer than 5 days since the order was placed, wait for the seller to ship and check back.",
+          "If it has been more than 5 days with no update, raise an issue in the Depop app.",
+          "If you paid via PayPal, open a dispute through PayPal instead.",
+          "If using Depop Shipping and tracking hasn't updated after 10 days, contact Depop support.",
+          "Buyers have up to 30 days from purchase to report an order as not arrived."
+        ],
+        "escalation_triggers": [
+          "Tracking shows delivered but buyer insists item was not received after 5 days",
+          "Seller has not responded within 48 hours of issue being raised",
+          "Package is confirmed lost or damaged via Depop Shipping",
+          "Buyer cannot access their Depop account to raise the issue",
+          "Order value is significant and seller is unresponsive"
+        ],
+        "covered_by_depop": true,
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773045"
+      },
+      {
+        "category": "item_not_as_described",
+        "summary": "Buyer received an item that is significantly different from the listing description or photos.",
+        "trigger_phrases": [
+          "item is not as described",
+          "item looks different from the photos",
+          "wrong size sent",
+          "wrong colour",
+          "item has damage that wasn't mentioned",
+          "not what I ordered",
+          "major flaw not shown in listing",
+          "item is different from what was listed",
+          "seller misrepresented the item",
+          "missing parts not mentioned in listing"
+        ],
+        "resolution_steps": [
+          "Check whether the issue qualifies as significantly not as described. Covered issues include: wrong size, wrong colour, major undisclosed damage, missing bundle items, or counterfeit items.",
+          "Issues NOT covered include: smells, minor wear on second-hand items, material feel differences, fit preferences, or changing your mind.",
+          "If the issue is covered, raise a dispute in the Depop app within 30 days of purchase.",
+          "Provide clear photos and a written description of the problem when raising the issue.",
+          "Keep the item — do not return it until Depop confirms a return is required.",
+          "If a return is approved, send it back within 7 days using tracked delivery and update the tracking in the app.",
+          "If you paid via PayPal, open a Not as Described dispute through PayPal directly."
+        ],
+        "escalation_triggers": [
+          "Seller has not responded within 48 hours of the issue being raised — Depop automatically escalates",
+          "Item was bought as part of a bundle",
+          "Dispute requires Depop to review evidence and make a decision",
+          "PayPal dispute has been completed and issue remains unresolved"
+        ],
+        "covered_by_depop": true,
+        "not_covered": [
+          "Smells or odours",
+          "Minor wear expected on second-hand items",
+          "Material or texture differences",
+          "Fit or sizing preferences",
+          "Buyer changed their mind"
+        ],
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773085"
+      },
+      {
+        "category": "authenticity_claim",
+        "summary": "Buyer believes the item they received is counterfeit or not authentic.",
+        "trigger_phrases": [
+          "item is fake",
+          "this is a counterfeit",
+          "not authentic",
+          "this isn't real",
+          "fake designer item",
+          "item is a replica",
+          "seller sold me a fake",
+          "I think this is counterfeit",
+          "doesn't look genuine",
+          "not the real thing"
+        ],
+        "resolution_steps": [
+          "Authenticity claims are treated as a significantly not as described dispute.",
+          "Do not return the item until Depop has reviewed the case.",
+          "Raise a dispute in the Depop app within 30 days, selecting the relevant reason.",
+          "Provide clear photos of the item, including any branding, labels, stitching, and hardware that suggest inauthenticity.",
+          "Include a written description explaining why you believe the item is not authentic.",
+          "Depop will review the evidence and make a decision — do not contact the seller directly about authenticity claims."
+        ],
+        "escalation_triggers": [
+          "All authenticity claims require Depop support review — this category always escalates",
+          "Seller disputes the claim and provides counter-evidence",
+          "Item value is high enough to warrant further investigation"
+        ],
+        "covered_by_depop": true,
+        "always_escalates": true,
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773085"
+      },
+      {
+        "category": "refund_request",
+        "summary": "Buyer is requesting a refund, or seller needs to issue one. Includes changed-mind returns and post-dispute refunds.",
+        "trigger_phrases": [
+          "I want a refund",
+          "can I get my money back",
+          "how do I refund a buyer",
+          "buyer wants a refund",
+          "I changed my mind",
+          "I don't want the item anymore",
+          "how long does a refund take",
+          "seller issued a refund",
+          "refund not received",
+          "I want to return this"
+        ],
+        "resolution_steps": [
+          "Refunds are only guaranteed if the item is confirmed as not as described or not received.",
+          "If the buyer changed their mind, Depop does not require sellers to accept a return. Ask the seller if they will make an exception.",
+          "If the seller agrees, return the item within 7 days using tracked delivery.",
+          "If the seller refuses a changed-mind return, the buyer can resell the item via Depop.",
+          "For sellers issuing a refund: go to the sold order in the app and select the refund option for Depop Payments orders.",
+          "For PayPal orders, refunds must be issued through PayPal directly.",
+          "Sellers can issue full or partial refunds depending on the situation.",
+          "After refunding a buyer for a PayPal order, sellers can contact support to request a Depop fee refund."
+        ],
+        "escalation_triggers": [
+          "Refund cannot be processed through the app",
+          "Dispute has been reviewed and refund is owed but not received",
+          "Seller issued a refund through PayPal and needs the Depop fee returned",
+          "Buyer and seller cannot agree on whether a return is warranted"
+        ],
+        "covered_by_depop": false,
+        "note": "Changed-mind returns are not covered by Depop Buyer Protection. Only INAD and non-delivery cases are guaranteed.",
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773065"
+      },
+      {
+        "category": "payout_delay",
+        "summary": "Seller has completed a sale but has not received their payment or payout.",
+        "trigger_phrases": [
+          "I haven't been paid",
+          "where is my money",
+          "sale completed but no payout",
+          "payment not received",
+          "my balance hasn't updated",
+          "payout hasn't arrived",
+          "how long does payment take",
+          "sold an item but not paid",
+          "my earnings haven't come through",
+          "balance shows zero after a sale"
+        ],
+        "resolution_steps": [
+          "For Depop Payments orders: wait 2 business days after the order is marked as delivered.",
+          "For manual shipping orders: allow up to 10 days after delivery confirmation.",
+          "Check that your bank account details are connected, verified, and correct in the app.",
+          "Check that your Depop Balance is not negative — a negative balance will delay payouts.",
+          "For PayPal orders: check your PayPal account directly, as Depop does not control PayPal payouts.",
+          "Check that no refunds or disputes are open on the order, as these can hold payments."
+        ],
+        "escalation_triggers": [
+          "Payment is still missing after 2 business days (Depop Payments) or 10 days (manual shipping)",
+          "Bank details are correct but payout has not arrived",
+          "Depop Balance appears incorrect or shows an unexpected deduction",
+          "A dispute or refund is blocking the payout and the seller needs clarification"
+        ],
+        "covered_by_depop": true,
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773105"
+      },
+      {
+        "category": "payment_and_fees",
+        "summary": "User does not recognise a fee or charge, has questions about their Depop Balance, or needs help with payment setup.",
+        "trigger_phrases": [
+          "I don't recognise this charge",
+          "what is this fee",
+          "why was I charged",
+          "my balance is negative",
+          "boosted listing fee",
+          "I haven't been charged a fee yet",
+          "what is Depop Balance",
+          "how do I set up direct debit",
+          "bundle sale fee",
+          "I need a top-up card"
+        ],
+        "resolution_steps": [
+          "For unrecognised fees: check the order receipt or sales receipt in the app for a full fee breakdown.",
+          "Depop charges a selling fee on each transaction. Boosted Listing fees apply if a buyer purchased within 28 days of viewing a boosted item.",
+          "PayPal fees can take up to 21 days to appear — check back before contacting support.",
+          "For negative Depop Balance: add funds through your connected payment method to clear the balance.",
+          "For Depop Balance queries: go to Balance in the app to view all transactions, sales, refunds, and payouts.",
+          "UK sellers using Depop Payments need to set up a direct debit to cover refunds if their balance is insufficient.",
+          "Top-up cards can be added or removed in payment settings."
+        ],
+        "escalation_triggers": [
+          "Fee cannot be identified after checking all receipts and transactions",
+          "Balance adjustment appears incorrect and requires review",
+          "Direct debit setup is failing",
+          "Boosted Listing fee appears to have been charged incorrectly"
+        ],
+        "covered_by_depop": true,
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773125"
+      },
+      {
+        "category": "fraud_and_safety",
+        "summary": "User has received a suspicious message, been asked to pay outside the app, shared personal information, or experienced abusive behaviour.",
+        "trigger_phrases": [
+          "I got a suspicious message",
+          "someone asked me to pay outside Depop",
+          "I think I've been scammed",
+          "I clicked a suspicious link",
+          "someone is harassing me",
+          "I want to report a user",
+          "fake email from Depop",
+          "someone asked for my personal details",
+          "I paid outside the app",
+          "I want to block someone"
+        ],
+        "resolution_steps": [
+          "Never pay or communicate outside the Depop app — all transactions and messages should stay within Depop.",
+          "If you received a suspicious email, check it came from an official Depop email address. Do not click links or open attachments.",
+          "If you clicked a suspicious link or shared personal details: contact your bank immediately if payment details were entered, enable two-factor authentication, and update any reused passwords.",
+          "Check your account for any unauthorised changes.",
+          "Report suspicious users or listings through the app by selecting Report on the relevant profile or listing.",
+          "To block a user, go to their profile and select Block.",
+          "If you paid outside the app, report the seller immediately and provide proof of purchase."
+        ],
+        "escalation_triggers": [
+          "Personal or financial information was shared with a suspicious party",
+          "Account security may be compromised",
+          "Payment was made outside the app and item not received",
+          "User is experiencing harassment, threats, or abusive behaviour",
+          "Serious safety concern that cannot be resolved through the app"
+        ],
+        "covered_by_depop": false,
+        "note": "Payments made outside the Depop app are not covered by Depop Buyer Protection. Always escalate fraud and safety issues to support.",
+        "always_escalates": true,
+        "payment_variants": ["depop_payments", "paypal"],
+        "policy_url": "https://help.depop.com/hc/en-gb/articles/360001773145"
+      },
+      {
+        "category": "ambiguous",
+        "summary": "The user's issue does not clearly map to a single category, or contains conflicting signals that prevent confident classification.",
+        "trigger_phrases": [
+          "I'm not sure what's happening",
+          "it's a bit of both",
+          "the item arrived but it's also late",
+          "I think it might be fake but it also looks damaged",
+          "my account is suspended and I have an open dispute",
+          "I paid outside the app but also raised an issue in the app",
+          "the seller refunded me but I still haven't got the money"
+        ],
+        "resolution_steps": [
+          "This issue doesn't fit clearly into a single category.",
+          "To make sure you get the right help, this will be passed to a Depop support agent who can review the full details.",
+          "Please have your order number, relevant screenshots, and a description of the issue ready."
+        ],
+        "escalation_triggers": [
+          "Always escalates — ambiguous cases require human review"
+        ],
+        "covered_by_depop": true,
+        "always_escalates": true,
+        "note": "This is the deliberate failure case. The agent surfaces uncertainty rather than guessing, and escalates with a clear handoff summary.",
+        "policy_url": null
+      }
+    ]
+  }
