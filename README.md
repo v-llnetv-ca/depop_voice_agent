@@ -31,7 +31,7 @@ The agent handles the repetitive 60%. Human agents handle the complex 40% — wi
 
 ## Architecture
 
-![System Architecture](docs/system_architecture.png)
+![System Architecture](docs/system_architecture.jpg)
 
 **User layer** — voice input via Web Speech API or text fallback → web frontend
 
