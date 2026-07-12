@@ -6,9 +6,9 @@ A voice-first AI support triage agent built for Depop, demonstrating how ElevenL
 
 ## The Problem
 
-Depop carries a 3.1-star Trustpilot rating across 7,000+ reviews. The overwhelming majority of complaints are not complex — they are the same six support queries asked by different people every day: item not received, item not as described, authenticity disputes, payout delays, account suspensions, and fee confusion.
+Depop carries a 3.1-star Trustpilot rating across 7,000+ reviews. The overwhelming majority of complaints are not complex, they are the same six support queries asked by different people every day: item not received, item not as described, authenticity disputes, payout delays, account suspensions, and fee confusion.
 
-Depop has no live chat. Users submit tickets and wait days for a first response — often missing the 30-day dispute window while they do. The problem isn't knowledge or policy. It's delivery.
+Depop has no live chat. Users submit tickets and wait days for a first response often missing the 30-day dispute window while they do. The problem isn't policy. It's that high-volume, low-complexity support requests consume the same human workflows as genuinely complex cases.
 
 → Full discovery brief in [`docs/discovery-brief.md`](docs/discovery-brief.md)
 
