@@ -554,6 +554,8 @@
 
     // ── Clarification ────────────────────────────────────────────
     function handleClarify(perspective) {
+      console.log('currentMessage:', currentMessage);
+      console.log('perspective:', perspective);
       document.getElementById('clarification-zone').classList.remove('visible');
       processMessage(currentMessage, perspective);
     }

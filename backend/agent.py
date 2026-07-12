@@ -249,9 +249,9 @@ def process_message(user_message, perspective=None):
         }
 
     reasoning.append("Checking if clarification is needed...")
-    clarification_needed = needs_clarification(user_message, category)
+    clarification_needed = needs_clarification(user_message, category) if not perspective else False
 
-    if clarification_needed:
+    if clarification_needed:   
         reasoning.append("Perspective unclear — asking clarifying question")
         return {
             "category": category,
